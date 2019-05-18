@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public class Knjiga {
 	
 	// stanja objekta
-	int brojKnjige;
-	String imeKnjige;
-	boolean izdatost = false;
-	static ArrayList<Knjiga> knjige = new ArrayList<>();
+	private int brojKnjige;
+	private String imeKnjige;
+	private boolean izdatost = false;
+	private static ArrayList<Knjiga> knjige = new ArrayList<>();
 	
 	// konstruktori
 	Knjiga() {
@@ -16,13 +16,8 @@ public class Knjiga {
 	}
 	
 	Knjiga(int brojKnjige, String imeKnjige) {
-		if (provjeraUnosa(brojKnjige, imeKnjige) == true) {
 			this.brojKnjige = brojKnjige;
 			this.imeKnjige = imeKnjige;
-			
-			System.out.println("Knjiga je unijeta.");
-			knjige.add(this);
-		}
 	}
 	
 	// ponasanje objekata
@@ -48,7 +43,7 @@ public class Knjiga {
 		
 		if (provjeraPriPodizanju(brojRacuna, brojKnjige)) {	
 			Knjiga.getKnjiga(brojKnjige).izdatost = true;
-			Racun.getRacun(brojRacuna).brojPosudjenihKnjiga += 1;
+			Racun.getRacun(brojRacuna).setBrojPosudjenihKnjiga(Racun.getRacun(brojRacuna).getBrojPosudjenihKnjiga() + 1);
 			System.out.println("Uspjesno ste podigli knjigu.");
 		} 
 	}
@@ -62,7 +57,7 @@ public class Knjiga {
 			return false;
 		}
 		
-		if (trenutniRacun.brojPosudjenihKnjiga >= 3) {
+		if (trenutniRacun.getBrojPosudjenihKnjiga() >= 3) {
 			System.out.println("Vec imate tri podignute knjige, vratite jednu pa ce te onda moci dignuti drugu.");
 			return false;
 		}
@@ -87,7 +82,7 @@ public class Knjiga {
 		
 		if (provjeraPriVracanju(brojRacuna, brojKnjige)) {	
 			Knjiga.getKnjiga(brojKnjige).izdatost = false;
-			Racun.getRacun(brojRacuna).brojPosudjenihKnjiga -= 1;
+			Racun.getRacun(brojRacuna).setBrojPosudjenihKnjiga(Racun.getRacun(brojRacuna).getBrojPosudjenihKnjiga() - 1);
 			System.out.println("Uspjesno ste vratili knjigu.");
 		} 
 	}
@@ -101,7 +96,7 @@ public class Knjiga {
 			return false;
 		}
 		
-		if (trenutniRacun.brojPosudjenihKnjiga <= 0) {
+		if (trenutniRacun.getBrojPosudjenihKnjiga() <= 0) {
 			System.out.println("Nemate podignutih knjiga koje bi mogli vratiti.");
 			return false;
 		}
@@ -129,6 +124,18 @@ public class Knjiga {
 		}
 		
 		return null;
+	}
+
+	public String getImeKnjige() {
+		return imeKnjige;
+	}
+
+	public void setImeKnjige(String imeKnjige) {
+		this.imeKnjige = imeKnjige;
+	}
+
+	public static ArrayList<Knjiga> getKnjige() {
+		return knjige;
 	}
 	
 }

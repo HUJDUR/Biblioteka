@@ -41,7 +41,10 @@ public class Biblioteka {
 		int brojRacuna = input.nextInt();
 		String imeMusterije = input.nextLine();
 		
-		new Racun(brojRacuna, imeMusterije);
+		if (new Racun(brojRacuna, imeMusterije).provjeraUnosa(brojRacuna, imeMusterije)) {
+			Racun.getRacuni().add(new Racun(brojRacuna, imeMusterije));
+			System.out.println("Racun uspjesno kreiran.");
+		}
 		
 		menu();
 	}
@@ -52,7 +55,10 @@ public class Biblioteka {
 		int brojKnjige = input.nextInt();
 		String imeKnjige = input.nextLine();
 		
-		new Knjiga(brojKnjige, imeKnjige);
+		if (new Knjiga(brojKnjige, imeKnjige).provjeraUnosa(brojKnjige, imeKnjige)) {
+			Knjiga.getKnjige().add(new Knjiga(brojKnjige, imeKnjige));
+			System.out.println("Knjiga uspjesno kreirana.");
+		}
 		
 		menu();
 	}

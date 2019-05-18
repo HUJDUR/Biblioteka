@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public class Racun {
 	
 	// stanja objekta
-	int brojRacuna;
-	String imeMusterije;
-	int brojPosudjenihKnjiga = 0;
-	static ArrayList<Racun> racuni = new ArrayList<>();
+	private int brojRacuna;
+	private String imeMusterije;
+	private int brojPosudjenihKnjiga = 0;
+	private static ArrayList<Racun> racuni = new ArrayList<>();
 	
 	// konstruktori
 	Racun() {
@@ -16,12 +16,8 @@ public class Racun {
 	}
 	
 	Racun(int brojRacuna, String imeMusterije) {
-		if(provjeraUnosa(brojRacuna, imeMusterije) == true) {
 			this.brojRacuna = brojRacuna;
 			this.imeMusterije = imeMusterije;
-			
-			racuni.add(this);
-		}
 	}
 	
 	// stanja objekta
@@ -58,6 +54,18 @@ public class Racun {
 	public String toString() {
 		return "Broj racuna = " + brojRacuna + ", ime musterije = " + imeMusterije + ", broj posudjenih knjiga = "
 				+ brojPosudjenihKnjiga;
+	}
+
+	public void setBrojPosudjenihKnjiga(int brojPosudjenihKnjiga) {
+		this.brojPosudjenihKnjiga = brojPosudjenihKnjiga;
+	}
+
+	public int getBrojPosudjenihKnjiga() {
+		return brojPosudjenihKnjiga;
+	}
+
+	public static ArrayList<Racun> getRacuni() {
+		return racuni;
 	}
 	
 }

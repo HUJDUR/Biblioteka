@@ -1,13 +1,16 @@
 package biblioteka;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Biblioteka {
 	
 	static Scanner input = new Scanner(System.in);
+	static ArrayList<Racun> racuni = new ArrayList<>();
+	static ArrayList<Knjiga> knjige = new ArrayList<>();
 
 	public static void main(String[] args) {
-		
+
 		System.out.println(" ------------/////Biblioteka\\\\\\\\\\------------");
 		menu();
 		
@@ -33,7 +36,6 @@ public class Biblioteka {
 			case 5 : ispisivanjeDetaljaRacuna();
 				break;
 			}
-		
 	}
 		
 	public static void kreiranjeRacuna() {
@@ -42,12 +44,29 @@ public class Biblioteka {
 		int brojRacuna = input.nextInt();
 		String imeMusterije = input.nextLine();
 		
-		if (new Racun(brojRacuna, imeMusterije).provjeraUnosa(brojRacuna, imeMusterije)) {
-			Racun.getRacuni().add(new Racun(brojRacuna, imeMusterije));
+		if (provjeraUnosaRacuna(brojRacuna, imeMusterije)) {
+			racuni.add(new Racun(brojRacuna, imeMusterije));
 			System.out.println("Racun uspjesno kreiran.");
 		}
 		
 		menu();
+	}
+	
+	public static boolean provjeraUnosaRacuna(int brojRacuna, String imeMusterije) {
+		
+		for (int i = 0; i < racuni.size(); i++) {
+			if (racuni.get(i).getBrojRacuna() == brojRacuna) {
+				System.out.println("Greska pri unosu.");
+				return false;
+			}
+		}
+		
+		if (brojRacuna < 0) {
+			System.out.println("Greska pri unosu.");
+			return false;
+		}
+	
+		return true;
 	}
 	
 	public static void kreiranjeKnjige() {
@@ -56,12 +75,29 @@ public class Biblioteka {
 		int brojKnjige = input.nextInt();
 		String imeKnjige = input.nextLine();
 		
-		if (new Knjiga(brojKnjige, imeKnjige).provjeraUnosa(brojKnjige, imeKnjige)) {
-			Knjiga.getKnjige().add(new Knjiga(brojKnjige, imeKnjige));
+		if (provjeraUnosaKnjige(brojKnjige, imeKnjige)) {
+			knjige.add(new Knjiga(brojKnjige, imeKnjige));
 			System.out.println("Knjiga uspjesno kreirana.");
 		}
 		
 		menu();
+	}
+	
+	public static boolean provjeraUnosaKnjige(int brojKnjige, String imeKnjige) {
+		
+		for (int i = 0; i < knjige.size(); i++) {
+			if (knjige.get(i).getBrojKnjige() == brojKnjige) {
+				System.out.println("Knjiga sa unesenim brojem vec postoji.");
+				return false;
+			}
+		}
+		
+		if (brojKnjige < 0) {
+			System.out.println("Greska pri unosu.");
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public static void podizanjeKnjige() {
@@ -70,10 +106,32 @@ public class Biblioteka {
 		int brojRacuna = input.nextInt();
 		int brojKnjige = input.nextInt();
 		
-		Knjiga.podizanjeKnjige(brojRacuna, brojKnjige);
+		if (provjeraPriPodizanju(brojRacuna, brojKnjige)) {	
+			getKnjiga(brojKnjige).setStatus(true);
+			getRacun(brojRacuna).setBrojPosudjenihKnjiga(getRacun(brojRacuna).getBrojPosudjenihKnjiga() + 1);
+			System.out.println("Uspjesno ste podigli knjigu.");
+		}
 		
 		menu();
+	}
 	
+	public static boolean provjeraPriPodizanju(int brojRacuna, int brojKnjige) {
+		
+		Racun trenutniRacun = getRacun(brojRacuna);
+		Knjiga trenutnaKnjiga = getKnjiga(brojKnjige);
+
+		if (trenutniRacun == null || trenutnaKnjiga == null) {
+			System.out.println("Uneseni racun/knjiga ne postoji.");
+			return false;
+		} else if (trenutniRacun.getBrojPosudjenihKnjiga() >= 3) {
+			System.out.println("Vec imate tri podignute knjige, vratite jednu pa ce te onda moci dignuti drugu.");
+			return false;
+		} else if (trenutnaKnjiga.isStatus() == true) {
+			System.out.println("Zeljena knjiga je vec dignuta.");
+			return false;
+		}
+			
+		return true;
 	}
 	
 	public static void vracanjeKnjige() {
@@ -82,10 +140,34 @@ public class Biblioteka {
 		int brojRacuna = input.nextInt();
 		int brojKnjige = input.nextInt();
 		
-		Knjiga.vracanjeKnjige(brojRacuna, brojKnjige);
+		if (provjeraPriVracanju(brojRacuna, brojKnjige)) {	
+			getKnjiga(brojKnjige).setStatus(false);
+			getRacun(brojRacuna).setBrojPosudjenihKnjiga(getRacun(brojRacuna).getBrojPosudjenihKnjiga() - 1);
+			System.out.println("Uspjesno ste vratili knjigu.");
+		} 
 		
 		menu();
+	}
+	
+	public static boolean provjeraPriVracanju(int brojRacuna, int brojKnjige) {
 		
+		Racun trenutniRacun = getRacun(brojRacuna);
+		Knjiga trenutnaKnjiga = getKnjiga(brojKnjige);
+
+		if (trenutniRacun == null || trenutnaKnjiga == null) {
+			System.out.println("Uneseni racun/knjiga ne postoji.");
+			return false;
+		} else if (trenutniRacun.getBrojPosudjenihKnjiga() <= 0) {
+			System.out.println("Nemate podignutih knjiga koje bi mogli vratiti.");
+			return false;
+		}
+		
+		if (trenutnaKnjiga.isStatus() == false) {
+			System.out.println("Zeljena knjiga je vec vracena.");
+			return false;
+		}
+			
+		return true;
 	}
 	
 	public static void ispisivanjeDetaljaRacuna() {
@@ -93,9 +175,28 @@ public class Biblioteka {
 		System.out.println("Unesite broj racuna:");
 		int brojRacuna = input.nextInt();
 		
-		System.out.println(Racun.getRacun(brojRacuna).toString());
+		System.out.println(getRacun(brojRacuna).toString());
 		
 		menu();
 	}
 	
+	public static Racun getRacun(int brojRacuna) {
+		
+		for (int i = 0; i < racuni.size(); i++) {
+			if (racuni.get(i).getBrojRacuna() == brojRacuna) 
+				return racuni.get(i);
+		}
+		
+		return null;	
+	}
+	
+	public static Knjiga getKnjiga(int brojKnjige) {
+		
+		for (int i = 0; i < knjige.size(); i++) {
+			if (knjige.get(i).getBrojKnjige() == brojKnjige) 
+				return knjige.get(i);
+		}
+		
+		return null;
+	}
 }

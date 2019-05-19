@@ -35,7 +35,6 @@ public class Racun {
 			return false;
 		}
 	
-		System.out.println("Profil je uspjesno kreiran");
 		return true;
 	}
 	

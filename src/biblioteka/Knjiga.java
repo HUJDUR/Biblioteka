@@ -50,26 +50,20 @@ public class Knjiga {
 	
 	public static boolean provjeraPriPodizanju(int brojRacuna, int brojKnjige) {
 		
-		Racun trenutniRacun = Racun.getRacun(brojRacuna);
-		
+		Racun trenutniRacun = Racun.getRacun(brojRacuna);	
 		if (trenutniRacun == null) {
 			System.out.println("Uneseni racun ne postoji.");
 			return false;
-		}
-		
-		if (trenutniRacun.getBrojPosudjenihKnjiga() >= 3) {
+		} else if (trenutniRacun.getBrojPosudjenihKnjiga() >= 3) {
 			System.out.println("Vec imate tri podignute knjige, vratite jednu pa ce te onda moci dignuti drugu.");
 			return false;
 		}
 		
 		Knjiga trenutnaKnjiga = Knjiga.getKnjiga(brojKnjige);
-		
 		if (trenutnaKnjiga == null) {
 			System.out.println("Unesena knjiga ne postoji.");
 			return false;
-		}
-		
-		if (trenutnaKnjiga.izdatost == true) {
+		} else if (trenutnaKnjiga.izdatost == true) {
 			System.out.println("Zeljena knjiga je vec dignuta.");
 			return false;
 		}
@@ -90,25 +84,19 @@ public class Knjiga {
 	public static boolean provjeraPriVracanju(int brojRacuna, int brojKnjige) {
 		
 		Racun trenutniRacun = Racun.getRacun(brojRacuna);
-		
 		if (trenutniRacun == null) {
 			System.out.println("Uneseni racun ne postoji.");
 			return false;
-		}
-		
-		if (trenutniRacun.getBrojPosudjenihKnjiga() <= 0) {
+		} else if (trenutniRacun.getBrojPosudjenihKnjiga() <= 0) {
 			System.out.println("Nemate podignutih knjiga koje bi mogli vratiti.");
 			return false;
 		}
 		
 		Knjiga trenutnaKnjiga = Knjiga.getKnjiga(brojKnjige);
-		
 		if (trenutnaKnjiga == null) {
 			System.out.println("Unesena knjiga ne postoji.");
 			return false;
-		}
-		
-		if (trenutnaKnjiga.izdatost == false) {
+		} else if (trenutnaKnjiga.izdatost == false) {
 			System.out.println("Zeljena knjiga je vec vracena.");
 			return false;
 		}

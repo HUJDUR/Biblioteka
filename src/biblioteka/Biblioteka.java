@@ -8,13 +8,14 @@ public class Biblioteka {
 
 	public static void main(String[] args) {
 		
+		System.out.println(" ------------/////Biblioteka\\\\\\\\\\------------");
 		menu();
 		
 	}
 	
 	public static void menu() {
 		
-		System.out.println("\nATM - menu:\n 1. Kreiranje racuna\n 2. Kreiranje knjige\n 3. Podizanje knjige\n 4. Vracanje knjige\n 5. Ispisivanje detalja postojecih racuna");
+		System.out.println(" 1. Kreiranje racuna\n 2. Kreiranje knjige\n 3. Podizanje knjige\n 4. Vracanje knjige\n 5. Ispisivanje detalja postojecih racuna\n ---------------------------------------------");
 		
 		int unosKorinsika = input.nextInt();
 		if (unosKorinsika > 5 || unosKorinsika < 0)

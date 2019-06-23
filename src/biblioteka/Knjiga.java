@@ -37,4 +37,14 @@ public class Knjiga {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}	
+	
+	public static Knjiga getKnjiga(int brojKnjige) {
+		
+		for (int i = 0; i < UI.knjige.size(); i++) {
+			if (UI.knjige.get(i).getBrojKnjige() == brojKnjige) 
+				return UI.knjige.get(i);
+		}
+		
+		return null;
+	}
 }
